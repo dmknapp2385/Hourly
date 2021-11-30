@@ -1,7 +1,7 @@
 // create today's date and time variable
 var today = moment();
 var tasksArray = [];
-var currentHour = moment().format("H");
+var currentHour = parseInt(moment().format("H"));
 
 // add date to top of page
 $("#currentDay").text(today.format('dddd MMMM Do'));
@@ -31,19 +31,20 @@ var auditHours = function () {
         // get id to convert to hour
         var hour = parseInt($(this).attr("id"));
         if (hour <= 5 && hour >= 1) {
-            hour += 5;
+            hour += 12;
         }
+        console.log(hour);
         // switch to compare to current time
-        switch (hour) {
-            case hour < currentHour:
-                $("textarea").addClass("past");
-                break;
-            case hour === currentHour:
-                $("textarea").addClass("present");
-                break;
-            default:
-                $("textarea").addClass("future");
-                break;
+            switch (hour) {
+                case hour < currentHour:
+                    $(this).addClass("past");
+                    break;
+                case hour === currentHour:
+                    $(this).addClass("present");
+                    break;
+                default:
+                    $(this).addClass("future");
+                    break;
        }
     });
 }
@@ -62,6 +63,7 @@ var loadTasks = function () {
         // assign to text area with corresponding id
         $("#" + id).val(text);
         // audit hours
+        auditHours();
     })
 }
 
