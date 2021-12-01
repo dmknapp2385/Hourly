@@ -1,4 +1,5 @@
 var tasksArray = [];
+console.log(tasksArray);
 
 // add date to top of page
 $("#currentDay").text(moment().format('dddd MMMM Do'));
@@ -15,8 +16,12 @@ $('.row').on("click", ".saveBtn", function () {
     var text = textarea.val().trim();
     // get id from text area
     var hour = textarea.attr("id");
+    console.log(hour);
+    console.log(text);
     // push to taskArray as object with hour and text
     var taskObj = {hour:hour, task: text};
+    console.log(taskObj);
+    console.log(tasksArray);
     tasksArray.push(taskObj);
     // save to local storage
     localStorage.setItem("tasks", JSON.stringify(tasksArray));
@@ -24,31 +29,36 @@ $('.row').on("click", ".saveBtn", function () {
 
 //loop through rows to see if time has passed if hour has passed and assigns color
 var auditHours = function () {
-    $("textarea").each(function() {
-        // get id to convert to hour
-        var hour = parseInt($(this).attr("id"));
-        if (hour <= 5 && hour >= 1) {
-            hour += 12;
-        }
-        // var currentHour = parseInt(moment().format("H"));  
-        var currentHour = 18;  
-        // if/else to compare to current time
-        if (hour < currentHour) {
-            $(this).addClass("past");
-            console.log(hour < currentHour);
-        }
-        else if (hour === currentHour) {
-            $(this).addClass("present");
-        }
-
-        else if (hour > currentHour && hour < 18) {
-            $(this).addClass("future");
-        }
-
-        else if (hour === 18) {
-            return removeTasks();
-        }
-    }) 
+    // var currentHour = parseInt(moment().format("H"));  
+    var currentHour = 11;  
+    if (currentHour === 18) {
+        $("textarea").each(function() {
+            $(this).val("");
+        })
+        localStorage.clear();
+    }
+    else {
+        $("textarea").each(function() {
+            // get id to convert to hour
+            var hour = parseInt($(this).attr("id"));
+            if (hour <= 5 && hour >= 1) {
+                hour += 12;
+            }
+            
+            // if/else to compare to current time
+            if (hour < currentHour) {
+                $(this).addClass("past");
+            }
+            else if (hour === currentHour) {
+                $(this).addClass("present");
+            }
+    
+            else {
+                $(this).addClass("future");
+            }
+        }) 
+    
+    }
 };
     
 
@@ -67,13 +77,5 @@ var loadTasks = function () {
 }
 
 loadTasks();
-
-// if beyond 5, new day reload  
-var removeTasks = function() {
-    $("textarea").each(function() {
-        $(this).val("");
-    })
-    localStorage.clear();
-}
 
 // new day reload function to clear all tasks at end of the day
