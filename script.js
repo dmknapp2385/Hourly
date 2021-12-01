@@ -34,20 +34,22 @@ var auditHours = function () {
             hour += 12;
         }
         console.log(hour);
+    
         // switch to compare to current time
-            switch (hour) {
-                case hour < currentHour:
-                    $(this).addClass("past");
-                    break;
-                case hour === currentHour:
-                    $(this).addClass("present");
-                    break;
-                default:
-                    $(this).addClass("future");
-                    break;
-       }
-    });
-}
+        switch (hour) {
+            case hour < currentHour:
+                $(this).addClass("past");
+                break;
+            case hour === currentHour:
+                $(this).addClass("present");
+                break;
+            default:
+                $(this).addClass("future");
+                break;
+            }
+        
+    }) 
+};
     
 
     // if beyond 5, new day reload  
