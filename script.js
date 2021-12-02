@@ -16,26 +16,28 @@ $('.row').on("click", ".saveBtn", function () {
     var text = textarea.val().trim();
     // get id from text area
     var hour = textarea.attr("id");
-    console.log(hour);
-    console.log(text);
     // push to taskArray as object with hour and text
     var taskObj = {hour:hour, task: text};
-    console.log(taskObj);
     console.log(tasksArray);
     tasksArray.push(taskObj);
     // save to local storage
-    localStorage.setItem("tasks", JSON.stringify(tasksArray));
+    saveTasks();
 });
+
+var saveTasks = function () {
+    localStorage.setItem("tasks", JSON.stringify(tasksArray));
+}
 
 //loop through rows to see if time has passed if hour has passed and assigns color
 var auditHours = function () {
     // var currentHour = parseInt(moment().format("H"));  
-    var currentHour = 11;  
+    var currentHour = 2;  
     if (currentHour === 18) {
         $("textarea").each(function() {
             $(this).val("");
         })
-        localStorage.clear();
+        tasksArray = [];
+        saveTasks();        
     }
     else {
         $("textarea").each(function() {
@@ -65,14 +67,20 @@ var auditHours = function () {
 // load task function takes local storage and displays
 var loadTasks = function () {
     tasksArray = JSON.parse(localStorage.getItem('tasks'));
-    // loop through array
-    $.each(tasksArray, function(index, task) {
+    console.log(tasksArray);
+    if (!tasksArray) {
+        tasksArray = [];
+    }
+    else {
+        // loop through array
+        $.each(tasksArray, function(index, task) {
         //get id and text
         var id=task.hour;
         var text = task.task;
         // assign to text area with corresponding id
         $("#" + id).val(text);
-    })
+        })
+    }
     auditHours();
 }
 
