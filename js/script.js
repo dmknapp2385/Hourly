@@ -1,5 +1,4 @@
 var tasksArray = [];
-console.log(tasksArray);
 
 // add date to top of page
 $("#currentDay").text(moment().format('dddd MMMM Do'));
@@ -18,7 +17,6 @@ $('.row').on("click", ".saveBtn", function () {
     var hour = textarea.attr("id");
     // push to taskArray as object with hour and text
     var taskObj = {hour:hour, task: text};
-    console.log(tasksArray);
     tasksArray.push(taskObj);
     // save to local storage
     saveTasks();
@@ -30,8 +28,7 @@ var saveTasks = function () {
 
 //loop through rows to see if time has passed if hour has passed and assigns color
 var auditHours = function () {
-    // var currentHour = parseInt(moment().format("H"));  
-    var currentHour = 2;  
+    var currentHour = parseInt(moment().format("H"));  
     if (currentHour === 18) {
         $("textarea").each(function() {
             $(this).val("");
@@ -67,7 +64,6 @@ var auditHours = function () {
 // load task function takes local storage and displays
 var loadTasks = function () {
     tasksArray = JSON.parse(localStorage.getItem('tasks'));
-    console.log(tasksArray);
     if (!tasksArray) {
         tasksArray = [];
     }
