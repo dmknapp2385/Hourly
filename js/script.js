@@ -1,5 +1,6 @@
 var tasksArray = [];
 
+
 // add date to top of page
 $("#currentDay").text(moment().format('dddd MMMM Do'));
 
@@ -17,7 +18,8 @@ $('.row').on("click", ".saveBtn", function () {
     var hour = textarea.attr("id");
     // push to taskArray as object with hour and text
     var taskObj = {hour:hour, task: text};
-    tasksArray.push(taskObj);
+   tasksArray.push(taskObj);
+    alert('Task Saved')
     // save to local storage
     saveTasks();
 });
